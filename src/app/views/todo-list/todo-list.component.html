@@ -1,1 +1,74 @@
-<p>todo-list works!</p>
+<div class="container p-3">
+  <h2 class="mb-3">Todo List</h2>
+  <div class="input-group mb-5">
+    <input type="text" class="form-control" aria-label="New todo input" aria-describedby="inputGroup-sizing-default"
+      [(ngModel)]="newTodo" (keyup.enter)="addTodo()" placeholder="Please enter your new task.">
+    <button type="submit" (click)="addTodo()" class="btn btn-outline-secondary"><i
+        class="bi bi-plus-circle fs-5"></i></button>
+  </div>
+  <div class="row">
+    <div class="edit-todo" *ngIf="isEdit">
+      <div class="form-content" [formGroup]="todoContent">
+        <input type="text" formControlName="title" [(ngModel)]="tmpTodo.title">
+      </div>
+      <button type="submit" (click)="save()">Save</button>
+      <button type="submit" (click)="cancel()">Cancel</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col card px-0">
+      <div class="card-header fs-5 bg-warning">
+        Todo:
+      </div>
+      <div class="card-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col" class="w-25 text-center">Check</th>
+              <th scope="col" class="w-50">Content</th>
+              <th scope="col" class="w-25">Actiomns</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let todo of todosInProcess; let index = index">
+              <th scope="row" class="text-center"><input type="checkbox" (click)="handleCompleteItem(todo.id)" /></th>
+              <td>{{ todo.title }}</td>
+              <td class="text-end">
+                <button class="btn btn-outline-primary me-2" (click)="edit(todo.id)"><i
+                    class="bi bi-pencil-square"></i></button>
+                <button class="btn btn-outline-danger" (click)="delete(todo.id)"><i
+                    class="bi bi-trash-fill"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col card px-0">
+      <div class="card-header fs-5 bg-secondary">
+        Done:
+      </div>
+      <div class="card-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col" class="w-25 text-center">Check</th>
+              <th scope="col" class="w-50">Content</th>
+              <th scope="col" class="w-25">Actiomns</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let todo of todosDone; let index = index">
+              <th scope="row" class="text-center"><input type="checkbox" (click)="handleCompleteItem(todo.id)" /></th>
+              <td>{{ todo.title }}</td>
+              <td>
+                <button class="btn btn-outline-secondary me-2" disabled><i class="bi bi-pencil-square"></i></button>
+                <button class="btn btn-outline-secondary" disabled><i class="bi bi-trash-fill"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

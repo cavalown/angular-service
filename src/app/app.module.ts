@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './views/home/home.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { TomatoClockComponent } from './views/tomato-clock/tomato-clock.component';
+import { HomeComponent } from './views/home/home.component';
 import { TodoListComponent } from './views/todo-list/todo-list.component';
+import { TomatoClockComponent } from './views/tomato-clock/tomato-clock.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,9 @@ import { TodoListComponent } from './views/todo-list/todo-list.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
