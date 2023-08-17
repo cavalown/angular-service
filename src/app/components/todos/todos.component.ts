@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,EventEmitter, Output } from '@angular/core';
 
 interface Todo {
   id: string;
@@ -24,8 +24,10 @@ export class TodosComponent {
       id: '56cbb349-2db1-46a1-a353-061ed2212dd7',
     },
   ];
+  @Output() taskSelectedEvent = new EventEmitter<string>();
   constructor(){}
-  playTomatoClock(){
-    console.log('Run Tomato Click')
+  playTomatoClock(todoTitle:string){
+    console.log('Run Tomato Click');
+    this.taskSelectedEvent.emit(todoTitle);
   }
 }

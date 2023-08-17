@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col text-center">
+    <div class="col text-center" style="position: relative;">
       <img
         style="width: 100%"
         src="../../../assets/tomato-svgrepo-com-green.svg"
@@ -8,13 +8,26 @@
       />
       <div
         class="timer text-center"
-        style="position: absolute; top: 40%; left: 40%"
+        style="
+          position: absolute;
+          width: 200px;
+          height: 80px;
+          top: 50%;
+          right: 0px;
+          left: 0px;
+          margin: auto;
+        "
       >
-        {{ minute }}:{{ second }}
+        <p class="fs-1">{{ minute }}:{{ second }}</p>
       </div>
     </div>
   </div>
-  <div class="row mt-5">
+  <div class="row" style="height: 40px">
+    <div class="col text-center p-1">
+      <p class="fs-6">{{ taskSelected }}</p>
+    </div>
+  </div>
+  <div class="row mt-3">
     <div class="col btn-group">
       <button type="button" class="btn btn-outline-secondary" (click)="start()">
         Start
