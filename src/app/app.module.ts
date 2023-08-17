@@ -8,6 +8,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HomeComponent } from './views/home/home.component';
 import { TodoListComponent } from './views/todo-list/todo-list.component';
 import { TomatoClockComponent } from './views/tomato-clock/tomato-clock.component';
+import { TodosComponent } from './components/todos/todos.component';
+import { TimerComponent } from './components/timer/timer.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { TomatoClockComponent } from './views/tomato-clock/tomato-clock.componen
     HomeComponent,
     SidebarComponent,
     TomatoClockComponent,
-    TodoListComponent
+    TodoListComponent,
+    TodosComponent,
+    TimerComponent
   ],
   imports: [
     BrowserModule,

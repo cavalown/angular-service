@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="col card px-0">
+    <!-- <div class="card-header fs-5 bg-warning">My Task List</div> -->
+    <div class="card-body">
+      <table class="table table-striped">
+        <!-- <thead>
+          <tr>
+            <th scope="col" class="w-25 text-center">Check</th>
+            <th scope="col" class="w-50">Content</th>
+            <th scope="col" class="w-25 txe-end">Run</th>
+          </tr>
+        </thead> -->
+        <tbody>
+          <tr *ngFor="let todo of todos; let index = index">
+            <th scope="row" class="text-center">
+              <input type="checkbox" />
+            </th>
+            <td>{{ todo.title }}</td>
+            <td class="text-end">
+              <button
+                class="btn btn-outline-primary me-2"
+                (click)="playTomatoClock()"
+              >
+              <i class="bi bi-play-circle"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
