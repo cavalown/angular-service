@@ -10,6 +10,9 @@ import { TodoListComponent } from './views/todo-list/todo-list.component';
 import { TomatoClockComponent } from './views/tomato-clock/tomato-clock.component';
 import { TodosComponent } from './components/todos/todos.component';
 import { TimerComponent } from './components/timer/timer.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { todosReducer } from './store/todos/todos.reducer';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,11 @@ import { TimerComponent } from './components/timer/timer.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StoreModule.forRoot({
+      todos: todosReducer
+    }),
+    EffectsModule.forRoot([])
   ],
   providers: [],
   bootstrap: [AppComponent]

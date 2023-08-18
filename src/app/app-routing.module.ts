@@ -8,6 +8,7 @@ const routes: Routes = [
   {
     path: '', component: HomeComponent,
     children: [
+      {path:'', pathMatch: 'full', redirectTo: 'tomato-clock'},
       { path: 'tomato-clock', pathMatch: 'full', component: TomatoClockComponent },
       { path: 'todo-list', pathMatch: 'full', component: TodoListComponent }
     ]

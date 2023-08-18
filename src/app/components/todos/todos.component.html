@@ -11,7 +11,7 @@
           </tr>
         </thead> -->
         <tbody>
-          <tr *ngFor="let todo of todos; let index = index">
+          <tr *ngFor="let todo of todosInProgress$ | async; let index = index">
             <th scope="row" class="text-center">
               <input type="checkbox" />
             </th>
