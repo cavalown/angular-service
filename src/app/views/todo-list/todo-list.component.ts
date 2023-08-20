@@ -8,7 +8,11 @@ import {
   deleteTodo,
   updateTodo,
 } from 'src/app/store/todos/todos.actions';
-import { Observable } from 'rxjs';
+import {
+  selectInProgressTodos,
+  selectCompletedTodos,
+} from 'src/app/store/todos/todos.selector';
+import { Observable, take } from 'rxjs';
 
 interface Todo {
   id: string;
@@ -23,10 +27,8 @@ interface Todo {
 })
 export class TodoListComponent {
   newTodo: string = '';
-  todos$: Observable<Todo[]>;
-  todos: Todo[] = [];
-  todosInProcess: Todo[] = [];
-  todosDone: Todo[] = [];
+  inProgressTodos$: Observable<Todo[]>;
+  completedTodos$: Observable<Todo[]>;
   isEdit: boolean = false;
   tmpTodo: Todo = {
     title: '',
@@ -38,14 +40,10 @@ export class TodoListComponent {
     private _fb: FormBuilder,
     private store: Store<{ todos: Todo[] }>
   ) {
-    this.todos$ = store.select('todos');
+    this.inProgressTodos$ = store.select(selectInProgressTodos);
+    this.completedTodos$ = store.select(selectCompletedTodos);
     this.todoContent = this._fb.group({
       title: [''],
-    });
-    this.todos$.subscribe((todos) => {
-      this.todos = todos;
-      this.todosInProcess = todos.filter((item) => !item.isCompleted);
-      this.todosDone = todos.filter((item) => item.isCompleted);
     });
     this.todoContent.valueChanges.subscribe((formValues) => {
       this.tmpTodo.title = formValues.title;
@@ -59,57 +57,55 @@ export class TodoListComponent {
       isCompleted: false,
     };
     this.store.dispatch(createTodo({ todo: todoData }));
-    this.filterTodos();
     this.newTodo = '';
   }
   save() {
     if (!this.tmpTodo.title.trim()) return;
-    const index = this.findInProgressTodoIndexById(this.tmpTodo.id);
-    if (index !== -1) {
-      this.store.dispatch(updateTodo({ index, todo: this.tmpTodo }));
-      this.filterTodos();
-    }
-    this.isEdit = false;
+
+    this.inProgressTodos$.pipe(take(1)).subscribe((todos) => {
+      const index = todos.findIndex((item) => item.id === this.tmpTodo.id);
+      if (index !== -1) {
+        const updatedTodo = {
+          ...this.tmpTodo,
+        };
+        this.store.dispatch(updateTodo({ index, todo: updatedTodo }));
+      }
+      this.isEdit = false;
+    });
   }
   cancel() {
     this.isEdit = false;
   }
   handleCompleteItem(id: string) {
-    const index = this.todos.findIndex((item) => item.id === id);
-    if (index !== -1) {
-      const updatedTodo = {
-        ...this.todos[index],
-        isCompleted: !this.todos[index].isCompleted,
-      };
-      this.store.dispatch(updateTodo({ index, todo: updatedTodo }));
-    }
-  }
-  edit(id: string) {
-    const index = this.todos.findIndex((item) => item.id === id);
-    if (index !== -1) {
-      this.tmpTodo = { ...this.todos[index] };
-      this.todoContent.patchValue({
-        title: this.tmpTodo.title,
-      });
-    }
-    this.isEdit = true;
-  }
-  delete(id: string) {
-    const index = this.todos.findIndex((item) => item.id === id);
-    if (index !== -1) {
-      this.store.dispatch(deleteTodo({ index }));
-      this.filterTodos();
-    }
-  }
-  private filterTodos() {
-    this.todos$.subscribe((todos) => {
-      this.todos = todos;
-      this.todosInProcess = todos.filter((item) => !item.isCompleted);
-      this.todosDone = todos.filter((item) => item.isCompleted);
+    this.inProgressTodos$.subscribe((todos) => {
+      const index = todos.findIndex((item) => item.id === id);
+      if (index !== -1) {
+        const updatedTodo = {
+          ...todos[index],
+          isCompleted: !todos[index].isCompleted,
+        };
+        this.store.dispatch(updateTodo({ index, todo: updatedTodo }));
+      }
     });
   }
-
-  private findInProgressTodoIndexById(id: string): number {
-    return this.todosInProcess.findIndex((item) => item.id === id);
+  edit(id: string) {
+    this.inProgressTodos$.subscribe((todos) => {
+      const index = todos.findIndex((item) => item.id === id);
+      if (index !== -1) {
+        this.tmpTodo = { ...todos[index] };
+        this.todoContent.patchValue({
+          title: this.tmpTodo.title,
+        });
+      }
+      this.isEdit = true;
+    });
+  }
+  delete(id: string) {
+    this.inProgressTodos$.subscribe((todos) => {
+      const index = todos.findIndex((item) => item.id === id);
+      if (index !== -1) {
+        this.store.dispatch(deleteTodo({ index }));
+      }
+    });
   }
 }

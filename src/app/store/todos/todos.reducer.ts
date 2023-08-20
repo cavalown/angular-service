@@ -1,8 +1,5 @@
 import { createReducer, on, Action } from '@ngrx/store';
 import {
-  // CreateTodo,
-  // CreateTodoAction,
-  // TodoActions,
   createTodo,
   deleteTodo,
   updateTodo,
@@ -20,13 +17,3 @@ export const todosReducer = createReducer(
   ),
   on(deleteTodo, (state, action) => state.filter((todo, index) => index !== action.index))
 );
-
-// export function todosReducer(
-//   state = initialState,
-//   action: TodoActions | Action
-// ) {
-//   if (action.type === CreateTodo) {
-//     return [...state, (action as CreateTodoAction).todo];
-//   }
-//   return state;
-// }

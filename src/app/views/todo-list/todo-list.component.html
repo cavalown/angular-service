@@ -30,7 +30,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let todo of todosInProcess; let index = index">
+            <tr *ngFor="let todo of inProgressTodos$|async; let index = index">
               <th scope="row" class="text-center"><input type="checkbox" (click)="handleCompleteItem(todo.id)" /></th>
               <td>{{ todo.title }}</td>
               <td class="text-end">
@@ -58,7 +58,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let todo of todosDone; let index = index">
+            <tr *ngFor="let todo of completedTodos$|async; let index = index">
               <th scope="row" class="text-center"><input type="checkbox" (click)="handleCompleteItem(todo.id)" /></th>
               <td>{{ todo.title }}</td>
               <td>
