@@ -26,5 +26,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.ng-service }}
+          github_token: ${{ secrets.HexoBlog }}
           publish_dir: ./dist/angular-service
