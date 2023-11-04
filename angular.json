@@ -36,7 +36,8 @@
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.js"
-            ]
+            ],
+            "baseHref": "/angular-service/"
           },
           "configurations": {
             "production": {
